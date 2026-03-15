@@ -1,8 +1,8 @@
 "use client";
 
-import { m, LazyMotion, domAnimation } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
+import { motion } from "framer-motion";
 
 interface BentoGridProps {
   className?: string;
@@ -13,7 +13,7 @@ export const BentoGrid = ({ className, children }: BentoGridProps) => {
   return (
     <div
       className={cn(
-        "grid md:auto-rows-[25rem] grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto px-4 w-full",
+        "grid grid-cols-1 md:grid-cols-3 gap-2 w-full px-4 md:px-8",
         className
       )}
     >
@@ -26,65 +26,107 @@ interface BentoCardProps {
   className?: string;
   title: string;
   description: string;
-  headerIcon?: string;
-  icon?: ReactNode;
-  delay?: number;
+  label?: string;
+  stat?: string;
+  statLabel?: string;
+  svgBg?: ReactNode;
+  index?: number;
 }
 
 export const BentoCard = ({
   className,
   title,
   description,
-  headerIcon,
-  icon,
-  delay = 0,
+  label,
+  stat,
+  statLabel,
+  svgBg,
+  index = 0,
 }: BentoCardProps) => {
   return (
-    <LazyMotion features={domAnimation} strict>
-      <m.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.5, delay: delay }}
-        whileHover={{ scale: 1.02 }}
-        className={cn(
-          "row-span-1 glass-panel rounded-3xl group/bento transition duration-300 p-8 flex flex-col justify-between overflow-hidden relative",
-          className
-        )}
-      >
-        {/* Background Hover Effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent opacity-0 group-hover/bento:opacity-100 transition-opacity duration-500 rounded-3xl" />
-        
-        {/* Header Area */}
-        <div className="relative z-10 flex flex-1 w-full h-full min-h-[6rem] rounded-2xl bg-black/40 border border-white/5 overflow-hidden mb-6 items-center justify-center group-hover/bento:border-white/10 transition-colors">
-          {headerIcon ? (
-            <img
-              src={headerIcon}
-              alt={title}
-              width={64}
-              height={64}
-              loading="lazy"
-              decoding="async"
-              className="invert opacity-50 group-hover/bento:opacity-100 group-hover/bento:scale-110 transition-all duration-500"
-            />
-          ) : (
-            <div className="w-full h-full bg-noise opacity-30" />
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+      className={cn(
+        "group relative flex flex-col overflow-hidden cursor-default",
+        "bg-[#0a0a0a] border border-white/[0.1] rounded-xl",
+        className
+      )}
+    >
+      {/* SVG Background */}
+      {svgBg && (
+        <div className="absolute inset-0 pointer-events-none opacity-[0.07] group-hover:opacity-[0.14] transition-opacity duration-700 overflow-hidden">
+          {svgBg}
+        </div>
+      )}
+
+      {/* Hover glow */}
+      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(500px_circle_at_50%_50%,rgba(255,255,255,0.04),transparent_60%)]" />
+
+      {/* Hover border */}
+      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none border border-white/[0.18]" />
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col justify-between h-full p-5 md:p-6">
+        {/* Top row */}
+        <div className="flex items-start justify-between gap-4">
+          {label && (
+            <motion.span
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 + index * 0.08 }}
+              className="font-mono text-[10px] tracking-[0.18em] uppercase text-white/50"
+            >
+              {label}
+            </motion.span>
+          )}
+          {stat && (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 + index * 0.08 }}
+              className="flex items-baseline gap-2 ml-auto shrink-0"
+            >
+              <span className="font-display text-xl font-bold text-white/90 tracking-tighter">
+                {stat}
+              </span>
+              {statLabel && (
+                <span className="font-mono text-[9px] text-white/40 uppercase tracking-wider">
+                  {statLabel}
+                </span>
+              )}
+            </motion.div>
           )}
         </div>
 
-        {/* Content Area */}
-        <div className="relative z-10 flex flex-col">
-          <div className="group-hover/bento:-translate-y-1 transition duration-200">
-            <div className="flex items-center gap-3 mb-2">
-              {icon && <span className="text-zinc-400">{icon}</span>}
-              <div className="font-bold text-xl text-neutral-100">{title}</div>
-            </div>
-            <div className="font-normal text-sm text-neutral-400">
+        {/* Bottom content — slide up reveal */}
+        <div className="mt-8 overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.25 + index * 0.08, ease: [0.25, 0.4, 0.25, 1] }}
+          >
+            <h3 className="font-serif text-[20px] md:text-[22px] font-normal leading-[1.2] text-white mb-2.5">
+              {title}
+            </h3>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.35 + index * 0.08, ease: [0.25, 0.4, 0.25, 1] }}
+          >
+            <p className="font-sans text-[13px] leading-[1.7] text-white/55">
               {description}
-            </div>
-          </div>
+            </p>
+          </motion.div>
         </div>
-      </m.div>
-    </LazyMotion>
+      </div>
+    </motion.div>
   );
 };

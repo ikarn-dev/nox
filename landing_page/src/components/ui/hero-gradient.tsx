@@ -1,88 +1,31 @@
 "use client";
 
-import { m, LazyMotion, domAnimation } from "framer-motion";
-
 /**
- * Animated flowing gradient background — black & white only.
- * Renders organic, flowing light streaks similar to the Veltrix reference.
+ * Matte black frosty gradient background with heavy grain.
+ * Lighter gray at top, fading to deep black at bottom.
  */
 export function HeroGradient() {
   return (
-    <LazyMotion features={domAnimation} strict>
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Primary flowing streak — top right */}
-        <m.div
-          animate={{
-            rotate: [0, 3, -2, 0],
-            scale: [1, 1.05, 0.98, 1],
-          }}
-          transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
-          className="absolute -top-[20%] right-[10%] w-[80%] h-[120%]"
-          style={{
-            background:
-              "conic-gradient(from 160deg at 60% 40%, transparent 0%, rgba(255,255,255,0.06) 15%, transparent 30%, rgba(255,255,255,0.04) 45%, transparent 60%)",
-            filter: "blur(60px)",
-            willChange: "transform",
-          }}
-        />
+    <div className="absolute inset-0 pointer-events-none">
+      {/* Matte gradient — brighter top for more visible whites */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, #484848 0%, #353535 15%, #252525 35%, #151515 60%, #080808 85%, #030303 100%)",
+        }}
+      />
 
-        {/* Secondary streak — bottom left */}
-        <m.div
-          animate={{
-            rotate: [0, -2, 3, 0],
-            scale: [1, 0.97, 1.03, 1],
-          }}
-          transition={{ repeat: Infinity, duration: 25, ease: "easeInOut", delay: 2 }}
-          className="absolute -bottom-[30%] -left-[10%] w-[70%] h-[100%]"
-          style={{
-            background:
-              "conic-gradient(from 320deg at 40% 60%, transparent 0%, rgba(255,255,255,0.05) 20%, transparent 40%, rgba(255,255,255,0.03) 55%, transparent 70%)",
-            filter: "blur(80px)",
-            willChange: "transform",
-          }}
-        />
-
-        {/* Thin bright streak across center — like a light trail */}
-        <m.div
-          animate={{
-            opacity: [0.3, 0.6, 0.3],
-            rotate: [-8, -6, -8],
-          }}
-          transition={{ repeat: Infinity, duration: 15, ease: "easeInOut" }}
-          className="absolute top-[35%] -left-[10%] w-[120%] h-[2px]"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 30%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.15) 70%, transparent 100%)",
-            filter: "blur(1px)",
-            willChange: "transform, opacity",
-          }}
-        />
-
-        {/* Secondary thin streak */}
-        <m.div
-          animate={{
-            opacity: [0.2, 0.4, 0.2],
-            rotate: [5, 7, 5],
-          }}
-          transition={{ repeat: Infinity, duration: 18, ease: "easeInOut", delay: 3 }}
-          className="absolute top-[55%] -left-[10%] w-[120%] h-[1.5px]"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 80%, transparent 100%)",
-            filter: "blur(1px)",
-            willChange: "transform, opacity",
-          }}
-        />
-
-        {/* Soft orb glow center-right */}
-        <div
-          className="absolute top-[25%] right-[20%] w-96 h-96 rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)",
-            filter: "blur(40px)",
-          }}
-        />
-      </div>
-    </LazyMotion>
+      {/* Film grain — heavier, more visible */}
+      <div
+        className="absolute inset-0"
+        style={{
+          opacity: 0.55,
+          mixBlendMode: "overlay",
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          backgroundSize: "256px 256px",
+        }}
+      />
+    </div>
   );
 }
