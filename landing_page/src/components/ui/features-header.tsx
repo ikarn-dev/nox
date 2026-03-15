@@ -10,7 +10,7 @@ export function FeaturesSectionHeader() {
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.25 }}
         className="flex justify-center mb-5"
       >
         <span
@@ -30,7 +30,7 @@ export function FeaturesSectionHeader() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+          transition={{ duration: 0.35, delay: 0.05, ease: [0.25, 0.4, 0.25, 1] }}
           className="text-3xl md:text-5xl font-serif font-normal text-white tracking-tight leading-[1.1] mb-4"
         >
           What Nox Does Best
@@ -43,7 +43,7 @@ export function FeaturesSectionHeader() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
+          transition={{ duration: 0.35, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
           className="font-sans text-white/45 max-w-lg mx-auto text-[14px] leading-relaxed"
         >
           A dual-interface Solana trading system — Telegram bot + web

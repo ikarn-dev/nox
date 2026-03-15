@@ -118,7 +118,13 @@ body {
   }
 }
 
-/* Remove tap highlight on mobile */
+/* Remove tap highlight on mobile + pointer cursor on interactive elements */
 * {
   -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+[role="button"] {
+  cursor: pointer;
 }

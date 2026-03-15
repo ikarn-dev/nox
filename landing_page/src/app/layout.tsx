@@ -9,13 +9,16 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://nox.vercel.app"),
-  title: "Nox — Build Faster. Scale Infinite.",
+  title: "Nox | Solana Sniper",
   description:
-    "A highly optimized, Next.js 16 powered landing page with premium design, smooth animations, and Bento Grid layouts.",
+    "The fastest memecoin sniper on Solana. Sub-50ms execution, silent KOL intelligence, and zero MEV attacks.",
+  icons: {
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>",
+  },
   openGraph: {
-    title: "Nox — Build Faster. Scale Infinite.",
+    title: "Nox | Solana Sniper",
     description:
-      "A highly optimized, Next.js 16 powered landing page with premium design, smooth animations, and Bento Grid layouts.",
+      "The fastest memecoin sniper on Solana. Sub-50ms execution, silent KOL intelligence, and zero MEV attacks.",
     type: "website",
   },
 };

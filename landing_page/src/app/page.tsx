@@ -1,7 +1,28 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import { Hero } from "@/components/ui/hero";
 import { BentoGrid, BentoCard } from "@/components/bento/bento-grid";
 import { FeaturesSectionHeader } from "@/components/ui/features-header";
-import { ComplaintsSection } from "@/components/ui/complaints-section";
+import { Footer } from "@/components/ui/footer";
+
+/* ── Lazy-loaded below-fold sections ── */
+const ComplaintsSection = dynamic(
+  () => import("@/components/ui/complaints-section").then((m) => m.ComplaintsSection),
+  { ssr: false }
+);
+const ComparisonSection = dynamic(
+  () => import("@/components/ui/comparison-section").then((m) => m.ComparisonSection),
+  { ssr: false }
+);
+const PricingSection = dynamic(
+  () => import("@/components/ui/pricing-section").then((m) => m.PricingSection),
+  { ssr: false }
+);
+const FaqSection = dynamic(
+  () => import("@/components/ui/faq-section").then((m) => m.FaqSection),
+  { ssr: false }
+);
 
 /* ── SVG Backgrounds for feature cards ── */
 
@@ -79,7 +100,7 @@ const HexSvg = () => (
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between pb-24 bg-black">
+    <main className="flex min-h-screen flex-col items-center justify-between pb-[5px] bg-black">
       {/* Hero Section */}
       <Hero />
 
@@ -151,6 +172,18 @@ export default function Home() {
 
       {/* Complaints & Fixes Section */}
       <ComplaintsSection />
+
+      {/* Comparison Section */}
+      <ComparisonSection />
+
+      {/* Pricing Section */}
+      <PricingSection />
+
+      {/* FAQ Section */}
+      <FaqSection />
+
+      {/* Footer */}
+      <Footer />
     </main>
   );
 }

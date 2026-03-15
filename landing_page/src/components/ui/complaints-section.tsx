@@ -57,7 +57,7 @@ export function ComplaintsSection() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.25 }}
           className="flex justify-center mb-5"
         >
           <span
@@ -76,7 +76,7 @@ export function ComplaintsSection() {
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+            transition={{ duration: 0.35, delay: 0.05, ease: [0.25, 0.4, 0.25, 1] }}
             className="text-3xl md:text-5xl font-serif font-normal text-white tracking-tight leading-[1.1] mb-4"
           >
             Built from Real Complaints
@@ -88,7 +88,7 @@ export function ComplaintsSection() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
+            transition={{ duration: 0.35, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
             className="font-sans text-white/50 max-w-lg mx-auto text-[14px] leading-relaxed"
           >
             Every feature in Nox traces back to a real frustration
@@ -104,10 +104,10 @@ export function ComplaintsSection() {
           {complaints.map((item, i) => (
             <div
               key={i}
-              className="relative flex flex-col p-6 cursor-default hover:bg-white/[0.02]"
+              className="relative flex flex-col p-6 cursor-default hover:bg-white/[0.04] transition-colors rounded-lg overflow-hidden"
               style={{
-                border: "0.5px solid rgba(255,255,255,0.15)",
-                background: "linear-gradient(165deg, rgba(82,82,91,0.2) 0%, rgba(82,82,91,0.08) 50%, rgba(82,82,91,0.02) 100%)",
+                border: "0.5px solid rgba(255,255,255,0.1)",
+                background: "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(0,0,0,0.8) 100%)",
               }}
             >
               {/* Grain overlay */}
@@ -116,29 +116,43 @@ export function ComplaintsSection() {
                 style={{
                   backgroundImage: grainBg,
                   backgroundSize: "150px 150px",
-                  opacity: 0.15,
+                  opacity: 0.2,
                   mixBlendMode: "overlay",
                 }}
               />
 
               <div className="relative z-10 flex flex-col h-full">
                 {/* Quote */}
-                <div className="flex gap-3 mb-auto">
-                  <div className="w-[2px] shrink-0 bg-white" />
+                <div className="flex gap-4 mb-auto">
+                  <div className="shrink-0 pt-0.5">
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="text-white/30"
+                    >
+                      <path
+                        d="M10 11C10 14.866 6.866 18 3 18V16C5.761 16 8 13.761 8 11H3V5H10V11ZM21 11C21 14.866 17.866 18 14 18V16C16.761 16 19 13.761 19 11H14V5H21V11Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
                   <div>
-                    <p className="font-sans text-[14px] leading-[1.55] text-white/80 font-medium">
-                      &ldquo;{item.quote}&rdquo;
+                    <p className="font-sans text-[15px] leading-[1.6] text-white/90 font-medium">
+                      {item.quote}
                     </p>
-                    <span className="font-mono text-[9px] text-white/60 tracking-[0.1em] uppercase mt-1.5 block">
+                    <span className="font-mono text-[10px] text-white/50 tracking-[0.1em] uppercase mt-2.5 block">
                       — {item.trader}
                     </span>
                   </div>
                 </div>
 
                 {/* Fix */}
-                <div className="flex items-start gap-2 mt-5 pt-4 border-t border-white/20">
-                  <span className="text-emerald-500 text-[11px] mt-px shrink-0">✓</span>
-                  <p className="font-sans text-[12px] leading-[1.5] text-white/50">
+                <div className="flex items-start gap-2 mt-6 pt-5 border-t border-white/10">
+                  <span className="text-emerald-500 text-[12px] mt-px shrink-0">✓</span>
+                  <p className="font-sans text-[13px] leading-[1.5] text-white/60">
                     <span className="text-emerald-400 font-medium">Nox fix:</span>{" "}
                     {item.fix}
                   </p>

@@ -17,8 +17,8 @@ export function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: 0.8,
-            delay: 0.1,
+            duration: 0.4,
+            delay: 0.05,
             ease: [0.25, 0.4, 0.25, 1],
           }}
           className="relative w-full max-w-[550px] aspect-[2.5/1] mb-2 mix-blend-lighten"
@@ -39,7 +39,7 @@ export function Hero() {
             <motion.h1
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
+              transition={{ duration: 0.4, delay: 0.15, ease: [0.25, 0.4, 0.25, 1] }}
               className="text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.15] tracking-tight whitespace-nowrap"
               style={{
                 background:
@@ -70,7 +70,7 @@ export function Hero() {
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
+              transition={{ duration: 0.35, delay: 0.25, ease: [0.25, 0.4, 0.25, 1] }}
               className="text-sm md:text-base text-white/50 max-w-lg mx-auto mt-3 leading-relaxed"
             >
               The fastest memecoin sniper on Solana.
@@ -84,7 +84,7 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
+          transition={{ duration: 0.3, delay: 0.4 }}
           className="flex flex-col sm:flex-row items-center gap-4 mt-8 w-full sm:w-auto mx-auto"
         >
           {/* Primary CTA (Left) — Light gradient with heavy grain */}
@@ -133,32 +133,29 @@ export function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        className="relative shrink-0 border-t border-white/[0.04] px-8 md:px-12 py-6 flex flex-wrap items-center justify-center md:justify-between gap-6 md:gap-8"
+        transition={{ delay: 0.5, duration: 0.4 }}
+        className="relative shrink-0 border-t border-white/[0.04] px-2 sm:px-6 md:px-12 py-3 md:py-6"
       >
-        <div className="flex items-center gap-2 text-white/50 hover:text-white/80 transition-colors cursor-default">
-          <span className="text-xs">✦</span>
-          <span className="text-sm font-sans font-bold tracking-tight uppercase">Sub-50ms Execution</span>
-        </div>
-        <div className="hidden md:block w-px h-4 bg-white/10" />
-        <div className="flex items-center gap-2 text-white/50 hover:text-white/80 transition-colors cursor-default">
-          <span className="text-xs">◒</span>
-          <span className="text-sm font-sans font-bold tracking-tight uppercase">Silent KOL Detection</span>
-        </div>
-        <div className="hidden md:block w-px h-4 bg-white/10" />
-        <div className="flex items-center gap-2 text-white/50 hover:text-white/80 transition-colors cursor-default">
-          <span className="text-xs">✧</span>
-          <span className="text-sm font-sans font-bold tracking-tight uppercase">MEV-Free Swaps</span>
-        </div>
-        <div className="hidden md:block w-px h-4 bg-white/10" />
-        <div className="flex items-center gap-2 text-white/50 hover:text-white/80 transition-colors cursor-default">
-          <span className="text-xs">✣</span>
-          <span className="text-sm font-sans font-bold tracking-tight uppercase">Auto-Exit Clusters</span>
-        </div>
-        <div className="hidden md:block w-px h-4 bg-white/10" />
-        <div className="flex items-center gap-2 text-white/50 hover:text-white/80 transition-colors cursor-default">
-          <span className="text-xs">✺</span>
-          <span className="text-sm font-sans font-bold tracking-tight uppercase">85%+ Win Rate</span>
+        <div className="flex items-center justify-between w-full">
+          {[
+            "Sub-50ms Execution",
+            "Silent KOL Detection",
+            "MEV-Free Swaps",
+            "Auto-Exit Clusters",
+            "85%+ Win Rate",
+          ].map((label, i) => (
+            <div key={label} className="flex items-center">
+              {i > 0 && (
+                <div className="w-px h-3 md:h-4 bg-white/10 shrink-0 mr-1.5 sm:mr-3 md:mr-4" />
+              )}
+              <div className="flex items-center gap-1 sm:gap-2 text-white/50 cursor-default">
+                <span className="text-[7px] sm:text-[10px] md:text-xs">✦</span>
+                <span className="text-[7px] sm:text-[10px] md:text-sm font-sans font-bold tracking-tight uppercase whitespace-nowrap">
+                  {label}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </motion.div>
     </section>
