@@ -277,10 +277,10 @@ export function ComparisonSection() {
       {/* Section Header */}
       <div className="w-full px-4 md:px-8 lg:px-16 mb-12 md:mb-20 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.25 }}
+          transition={{ duration: 0.15 }}
           className="flex justify-center mb-5"
         >
           <span
@@ -293,10 +293,10 @@ export function ComparisonSection() {
 
         <div className="overflow-hidden">
           <motion.h2
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.35, delay: 0.05, ease: [0.25, 0.4, 0.25, 1] }}
+            transition={{ duration: 0.2, delay: 0.02, ease: [0.25, 0.4, 0.25, 1] }}
             className="text-3xl md:text-5xl font-serif font-normal text-white tracking-tight leading-[1.1] mb-6"
           >
             Nox vs. The Field
@@ -305,10 +305,10 @@ export function ComparisonSection() {
 
         <div className="overflow-hidden pb-1">
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.35, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+            transition={{ duration: 0.2, delay: 0.04, ease: [0.25, 0.4, 0.25, 1] }}
             className="font-sans text-white/50 max-w-xl mx-auto text-[15px] leading-relaxed"
           >
             Engineering targets for our proprietary execution engine. Lower latency,
@@ -321,10 +321,10 @@ export function ComparisonSection() {
       {/* Charts & Table Container */}
       <div className="w-full px-4 md:px-8 lg:px-16">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.15, ease: [0.25, 0.4, 0.25, 1] }}
+          transition={{ duration: 0.2, delay: 0.05, ease: [0.25, 0.4, 0.25, 1] }}
           className="relative overflow-hidden"
           style={containerBgStyle}
         >
@@ -399,10 +399,10 @@ export function ComparisonSection() {
                   {competitors.map((comp, i) => (
                     <motion.div
                       key={i}
-                      initial={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 6 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: 0.6 + i * 0.08 }}
+                      transition={{ duration: 0.2, delay: 0.1 + i * 0.04 }}
                       className="grid grid-cols-5 gap-4 py-3.5 items-center transition-colors"
                       style={{
                         background: comp.highlight
