@@ -1,31 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  Radar,
-  Legend,
-  Cell,
-} from "recharts";
+  GRAIN_OVERLAY_STYLE_LIGHT,
+  BADGE_BG_STYLE,
+} from "@/lib/constants";
 
 /* ─── Data ─── */
 
 const latencyData = [
   { name: "Nox", latency: 35, isNox: true },
   { name: "Axiom", latency: 85, isNox: false },
-  { name: "Trojan", latency: 120, isNox: false },
   { name: "BONKbot", latency: 95, isNox: false },
   { name: "BullX NEO", latency: 110, isNox: false },
+  { name: "Trojan", latency: 120, isNox: false },
   { name: "GMGN AI", latency: 180, isNox: false },
 ];
 
@@ -88,68 +76,202 @@ const competitors = [
   },
 ];
 
-/* ─── Custom Tooltip ─── */
+/* ─── Pure CSS Bar Chart ─── */
 
-function LatencyTooltip({
-  active,
-  payload,
-  label,
-}: {
-  active?: boolean;
-  payload?: Array<{ value: number }>;
-  label?: string;
-}) {
-  if (!active || !payload?.length) return null;
+const maxLatency = Math.max(...latencyData.map((d) => d.latency));
+
+function BarChart() {
   return (
-    <div
-      className="px-3 py-2 text-xs font-mono"
-      style={{
-        background: "rgba(0,0,0,0.9)",
-        border: "1px solid rgba(255,255,255,0.15)",
-        backdropFilter: "blur(8px)",
-      }}
-    >
-      <p className="text-white/70 mb-0.5">{label}</p>
-      <p className="text-white font-medium">{payload[0].value}ms</p>
+    <div className="flex items-end gap-3 md:gap-4 h-[220px] md:h-[260px] w-full px-2">
+      {latencyData.map((entry) => {
+        const heightPct = (entry.latency / maxLatency) * 100;
+        return (
+          <div key={entry.name} className="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+            {/* Value label */}
+            <span
+              className={`text-[11px] font-mono ${
+                entry.isNox ? "text-white font-medium" : "text-white/40"
+              }`}
+            >
+              {entry.latency}ms
+            </span>
+            {/* Bar */}
+            <div
+              className="w-full rounded-t-[3px] transition-all duration-700"
+              style={{
+                height: `${heightPct}%`,
+                background: entry.isNox
+                  ? "#ffffff"
+                  : "rgba(255,255,255,0.15)",
+                border: entry.isNox
+                  ? "1px solid rgba(255,255,255,0.6)"
+                  : "1px solid rgba(255,255,255,0.08)",
+                borderBottom: "none",
+                minHeight: "8px",
+              }}
+            />
+            {/* Label */}
+            <span className="text-[10px] font-mono text-white/50 text-center leading-tight">
+              {entry.name}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
-function RadarTooltip({
-  active,
-  payload,
-}: {
-  active?: boolean;
-  payload?: Array<{ name: string; value: number; color: string }>;
-}) {
-  if (!active || !payload?.length) return null;
+/* ─── Pure SVG Radar Chart ─── */
+
+function RadarChart() {
+  const cx = 140;
+  const cy = 130;
+  const maxR = 90;
+  const levels = [0.2, 0.4, 0.6, 0.8, 1.0];
+  const angleStep = (2 * Math.PI) / radarData.length;
+  const startAngle = -Math.PI / 2; // start from top
+
+  const polarToCart = (angle: number, radius: number) => ({
+    x: cx + radius * Math.cos(angle),
+    y: cy + radius * Math.sin(angle),
+  });
+
+  const makePolygon = (values: number[], max: number) =>
+    radarData
+      .map((_, i) => {
+        const angle = startAngle + i * angleStep;
+        const r = (values[i] / max) * maxR;
+        const pt = polarToCart(angle, r);
+        return `${pt.x},${pt.y}`;
+      })
+      .join(" ");
+
+  const noxPoints = makePolygon(
+    radarData.map((d) => d.nox),
+    100
+  );
+  const compPoints = makePolygon(
+    radarData.map((d) => d.competitors),
+    100
+  );
+
   return (
-    <div
-      className="px-3 py-2 text-xs font-mono"
-      style={{
-        background: "rgba(0,0,0,0.9)",
-        border: "1px solid rgba(255,255,255,0.15)",
-        backdropFilter: "blur(8px)",
-      }}
-    >
-      {payload.map((entry, i) => (
-        <p key={i} style={{ color: entry.color }}>
-          {entry.name}: {entry.value}
-        </p>
+    <svg viewBox="0 0 280 280" className="w-full h-[220px] md:h-[260px]">
+      {/* Grid levels */}
+      {levels.map((l) => (
+        <polygon
+          key={l}
+          points={radarData
+            .map((_, i) => {
+              const pt = polarToCart(startAngle + i * angleStep, maxR * l);
+              return `${pt.x},${pt.y}`;
+            })
+            .join(" ")}
+          fill="none"
+          stroke="rgba(255,255,255,0.08)"
+          strokeWidth="0.5"
+        />
       ))}
-    </div>
+
+      {/* Axis lines */}
+      {radarData.map((_, i) => {
+        const pt = polarToCart(startAngle + i * angleStep, maxR);
+        return (
+          <line
+            key={i}
+            x1={cx}
+            y1={cy}
+            x2={pt.x}
+            y2={pt.y}
+            stroke="rgba(255,255,255,0.06)"
+            strokeWidth="0.5"
+          />
+        );
+      })}
+
+      {/* Competitor area */}
+      <polygon
+        points={compPoints}
+        fill="rgba(255,255,255,0.03)"
+        stroke="rgba(255,255,255,0.3)"
+        strokeWidth="1"
+        strokeDasharray="4 4"
+      />
+
+      {/* Nox area */}
+      <polygon
+        points={noxPoints}
+        fill="rgba(255,255,255,0.10)"
+        stroke="#ffffff"
+        strokeWidth="1.5"
+      />
+
+      {/* Nox dots */}
+      {radarData.map((d, i) => {
+        const angle = startAngle + i * angleStep;
+        const r = (d.nox / 100) * maxR;
+        const pt = polarToCart(angle, r);
+        return (
+          <circle key={i} cx={pt.x} cy={pt.y} r="2.5" fill="#ffffff" />
+        );
+      })}
+
+      {/* Axis labels */}
+      {radarData.map((d, i) => {
+        const angle = startAngle + i * angleStep;
+        const pt = polarToCart(angle, maxR + 18);
+        return (
+          <text
+            key={i}
+            x={pt.x}
+            y={pt.y}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="fill-white/50 text-[10px] font-mono"
+            style={{ fontSize: "10px", fontFamily: "monospace" }}
+          >
+            {d.metric}
+          </text>
+        );
+      })}
+
+      {/* Legend */}
+      <line x1="60" y1="265" x2="75" y2="265" stroke="#ffffff" strokeWidth="1.5" />
+      <text x="80" y="265" dominantBaseline="middle" className="fill-white/50" style={{ fontSize: "10px", fontFamily: "monospace" }}>
+        Nox
+      </text>
+      <line x1="130" y1="265" x2="145" y2="265" stroke="rgba(255,255,255,0.3)" strokeWidth="1" strokeDasharray="4 4" />
+      <text x="150" y="265" dominantBaseline="middle" className="fill-white/50" style={{ fontSize: "10px", fontFamily: "monospace" }}>
+        Avg Competitor
+      </text>
+    </svg>
   );
 }
 
-/* ─── Grain BG ─── */
+/* ─── Hoisted styles ─── */
 
-const grainBg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
+const containerBgStyle: React.CSSProperties = {
+  border: "1px solid rgba(255,255,255,0.12)",
+  background:
+    "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.8) 100%)",
+};
+
+const chartBorderBottom: React.CSSProperties = {
+  borderBottom: "1px solid rgba(255,255,255,0.06)",
+};
+
+const chartBorderLeft: React.CSSProperties = {
+  borderBottom: "1px solid rgba(255,255,255,0.06)",
+  borderLeft: "1px solid rgba(255,255,255,0.06)",
+};
+
+const tagBorderStyle: React.CSSProperties = {
+  border: "1px solid rgba(255,255,255,0.08)",
+};
 
 /* ─── Component ─── */
 
 export function ComparisonSection() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
   return (
     <section className="w-full relative py-20 md:py-32 bg-black" id="comparison">
       {/* Section Header */}
@@ -163,11 +285,7 @@ export function ComparisonSection() {
         >
           <span
             className="inline-block font-mono text-[10px] tracking-[0.2em] uppercase text-white/70 px-4 py-1.5"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}
+            style={BADGE_BG_STYLE}
           >
             Benchmark Targets
           </span>
@@ -208,35 +326,19 @@ export function ComparisonSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.15, ease: [0.25, 0.4, 0.25, 1] }}
           className="relative overflow-hidden"
-          style={{
-            border: "1px solid rgba(255,255,255,0.12)",
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.8) 100%)",
-          }}
+          style={containerBgStyle}
         >
           {/* Grain */}
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{
-              backgroundImage: grainBg,
-              backgroundSize: "150px 150px",
-              opacity: 0.12,
-              mixBlendMode: "overlay",
-              zIndex: 0,
-            }}
+            style={GRAIN_OVERLAY_STYLE_LIGHT}
           />
 
           <div className="relative z-10 flex flex-col w-full">
             {/* ─── Charts Row ─── */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-0">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
               {/* Bar Chart — Latency */}
-              <div
-                className="p-6 md:p-8"
-                style={{
-                  borderBottom: "1px solid rgba(255,255,255,0.06)",
-                  borderRight: "none",
-                }}
-              >
+              <div className="p-6 md:p-8" style={chartBorderBottom}>
                 <div className="flex justify-between items-start mb-6">
                   <div>
                     <h3 className="text-white text-lg font-medium tracking-tight">
@@ -248,65 +350,17 @@ export function ComparisonSection() {
                   </div>
                   <span
                     className="text-[10px] font-mono uppercase tracking-widest text-white/30 px-2 py-1"
-                    style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+                    style={tagBorderStyle}
                   >
                     Target
                   </span>
                 </div>
 
-                <div className="w-full h-[260px] md:h-[300px]">
-                  {mounted && (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={latencyData}
-                      margin={{ top: 5, right: 10, left: -10, bottom: 5 }}
-                      barCategoryGap="20%"
-                    >
-                      <CartesianGrid
-                        strokeDasharray="3 3"
-                        stroke="rgba(255,255,255,0.06)"
-                        vertical={false}
-                      />
-                      <XAxis
-                        dataKey="name"
-                        tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11, fontFamily: "monospace" }}
-                        axisLine={{ stroke: "rgba(255,255,255,0.08)" }}
-                        tickLine={false}
-                      />
-                      <YAxis
-                        tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 11, fontFamily: "monospace" }}
-                        axisLine={false}
-                        tickLine={false}
-                        tickFormatter={(v: number) => `${v}ms`}
-                      />
-                      <Tooltip
-                        content={<LatencyTooltip />}
-                        cursor={{ fill: "rgba(255,255,255,0.03)" }}
-                      />
-                      <Bar dataKey="latency" radius={[3, 3, 0, 0]} maxBarSize={48}>
-                        {latencyData.map((entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={entry.isNox ? "#ffffff" : "rgba(255,255,255,0.15)"}
-                            stroke={entry.isNox ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.08)"}
-                            strokeWidth={1}
-                          />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                  )}
-                </div>
+                <BarChart />
               </div>
 
               {/* Radar Chart — Multi-Metric */}
-              <div
-                className="p-6 md:p-8"
-                style={{
-                  borderBottom: "1px solid rgba(255,255,255,0.06)",
-                  borderLeft: "1px solid rgba(255,255,255,0.06)",
-                }}
-              >
+              <div className="p-6 md:p-8" style={chartBorderLeft}>
                 <div className="flex justify-between items-start mb-6">
                   <div>
                     <h3 className="text-white text-lg font-medium tracking-tight">
@@ -318,54 +372,13 @@ export function ComparisonSection() {
                   </div>
                   <span
                     className="text-[10px] font-mono uppercase tracking-widest text-white/30 px-2 py-1"
-                    style={{ border: "1px solid rgba(255,255,255,0.08)" }}
+                    style={tagBorderStyle}
                   >
                     Target
                   </span>
                 </div>
 
-                <div className="w-full h-[260px] md:h-[300px]">
-                  {mounted && (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
-                      <PolarGrid stroke="rgba(255,255,255,0.08)" />
-                      <PolarAngleAxis
-                        dataKey="metric"
-                        tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11, fontFamily: "monospace" }}
-                      />
-                      <Radar
-                        name="Nox"
-                        dataKey="nox"
-                        stroke="#ffffff"
-                        fill="rgba(255,255,255,0.12)"
-                        fillOpacity={1}
-                        strokeWidth={2}
-                      />
-                      <Radar
-                        name="Avg Competitor"
-                        dataKey="competitors"
-                        stroke="rgba(255,255,255,0.3)"
-                        fill="rgba(255,255,255,0.03)"
-                        fillOpacity={1}
-                        strokeWidth={1}
-                        strokeDasharray="4 4"
-                      />
-                      <Tooltip content={<RadarTooltip />} />
-                      <Legend
-                        wrapperStyle={{
-                          fontSize: "11px",
-                          fontFamily: "monospace",
-                          color: "rgba(255,255,255,0.5)",
-                        }}
-                        iconType="line"
-                        formatter={(value: string) => (
-                          <span style={{ color: "rgba(255,255,255,0.5)" }}>{value}</span>
-                        )}
-                      />
-                    </RadarChart>
-                  </ResponsiveContainer>
-                  )}
-                </div>
+                <RadarChart />
               </div>
             </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { GRAIN_OVERLAY_STYLE, BADGE_BG_STYLE } from "@/lib/constants";
 
 const complaints = [
   {
@@ -45,8 +46,12 @@ const complaints = [
   },
 ];
 
-/* Grain overlay */
-const grainBg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
+/* Card background style — hoisted to prevent per-render allocation */
+const cardBgStyle: React.CSSProperties = {
+  border: "0.5px solid rgba(255,255,255,0.1)",
+  background:
+    "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(0,0,0,0.8) 100%)",
+};
 
 export function ComplaintsSection() {
   return (
@@ -62,10 +67,7 @@ export function ComplaintsSection() {
         >
           <span
             className="inline-block font-mono text-[10px] tracking-[0.2em] uppercase text-white/70 px-4 py-1.5"
-            style={{
-              background: "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}
+            style={BADGE_BG_STYLE}
           >
             Real Problems, Real Fixes
           </span>
@@ -105,20 +107,12 @@ export function ComplaintsSection() {
             <div
               key={i}
               className="relative flex flex-col p-6 cursor-default hover:bg-white/[0.04] transition-colors rounded-lg overflow-hidden"
-              style={{
-                border: "0.5px solid rgba(255,255,255,0.1)",
-                background: "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(0,0,0,0.8) 100%)",
-              }}
+              style={cardBgStyle}
             >
               {/* Grain overlay */}
               <div
                 className="absolute inset-0 pointer-events-none"
-                style={{
-                  backgroundImage: grainBg,
-                  backgroundSize: "150px 150px",
-                  opacity: 0.2,
-                  mixBlendMode: "overlay",
-                }}
+                style={GRAIN_OVERLAY_STYLE}
               />
 
               <div className="relative z-10 flex flex-col h-full">

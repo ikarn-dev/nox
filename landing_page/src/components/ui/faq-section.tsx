@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
+import { BADGE_BG_STYLE } from "@/lib/constants";
 
 /* ─── FAQ Data ─── */
 
@@ -46,9 +47,9 @@ const faqs = [
 export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const toggle = (i: number) => {
-    setOpenIndex(openIndex === i ? null : i);
-  };
+  const toggle = useCallback((i: number) => {
+    setOpenIndex((prev) => (prev === i ? null : i));
+  }, []);
 
   return (
     <section className="w-full relative py-20 md:py-32 bg-black" id="faq">
@@ -63,11 +64,7 @@ export function FaqSection() {
         >
           <span
             className="inline-block font-mono text-[10px] tracking-[0.2em] uppercase text-white/70 px-4 py-1.5"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}
+            style={BADGE_BG_STYLE}
           >
             FAQ
           </span>

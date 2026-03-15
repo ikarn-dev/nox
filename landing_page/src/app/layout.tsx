@@ -32,6 +32,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark bg-black">
+      <head>
+        {/* Preload critical fonts to avoid render-blocking requests */}
+        <link
+          rel="preload"
+          href="/fonts/Inter.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/Instrument Serif.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        {/* Preload hero image for faster LCP */}
+        <link
+          rel="preload"
+          href="/hero_image/hero_text.webp"
+          as="image"
+          type="image/webp"
+        />
+      </head>
       <body className="antialiased bg-black text-white font-sans">
         <Navbar />
         {children}

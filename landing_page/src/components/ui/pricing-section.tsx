@@ -2,10 +2,33 @@
 
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import {
+  GRAIN_OVERLAY_STYLE_LIGHT,
+  GRAIN_OVERLAY_STYLE_BUTTON,
+  BADGE_BG_STYLE,
+} from "@/lib/constants";
 
-/* ─── Grain BG ─── */
+/* ─── Hoisted styles ─── */
 
-const grainBg = `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`;
+const grainOverlayPricing: React.CSSProperties = {
+  ...GRAIN_OVERLAY_STYLE_LIGHT,
+  opacity: 0.1,
+};
+
+const filledCtaStyle: React.CSSProperties = {
+  background: "linear-gradient(180deg, #ffffff 0%, #d8d8d8 100%)",
+  border: "1px solid rgba(255,255,255,0.3)",
+};
+
+const outlineCtaStyle: React.CSSProperties = {
+  background: "rgba(255,255,255,0.05)",
+  border: "1px solid rgba(255,255,255,0.15)",
+};
+
+const dividerStyle: React.CSSProperties = {
+  background:
+    "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)",
+};
 
 
 
@@ -106,11 +129,7 @@ export function PricingSection() {
         >
           <span
             className="inline-block font-mono text-[10px] tracking-[0.2em] uppercase text-white/70 px-4 py-1.5"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}
+            style={BADGE_BG_STYLE}
           >
             Pricing
           </span>
@@ -176,16 +195,9 @@ export function PricingSection() {
                   : "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.9) 100%)",
               }}
             >
-              {/* Grain */}
               <div
                 className="absolute inset-0 pointer-events-none"
-                style={{
-                  backgroundImage: grainBg,
-                  backgroundSize: "150px 150px",
-                  opacity: 0.1,
-                  mixBlendMode: "overlay",
-                  zIndex: 0,
-                }}
+                style={grainOverlayPricing}
               />
 
               <div className="relative z-10 flex flex-col h-full p-5 md:p-6">
@@ -235,27 +247,12 @@ export function PricingSection() {
                       : "text-white/90"
                   }`}
                   style={
-                    tier.ctaStyle === "filled"
-                      ? {
-                          background:
-                            "linear-gradient(180deg, #ffffff 0%, #d8d8d8 100%)",
-                          border: "1px solid rgba(255,255,255,0.3)",
-                        }
-                      : {
-                          background: "rgba(255,255,255,0.05)",
-                          border: "1px solid rgba(255,255,255,0.15)",
-                        }
+                    tier.ctaStyle === "filled" ? filledCtaStyle : outlineCtaStyle
                   }
                 >
-                  {/* Button grain */}
                   <div
                     className="absolute inset-0 pointer-events-none"
-                    style={{
-                      opacity: 0.4,
-                      mixBlendMode: "overlay",
-                      backgroundImage: grainBg,
-                      backgroundSize: "128px 128px",
-                    }}
+                    style={GRAIN_OVERLAY_STYLE_BUTTON}
                   />
                   <span className="relative z-10">{tier.cta}</span>
                 </button>
@@ -263,10 +260,7 @@ export function PricingSection() {
                 {/* Divider */}
                 <div
                   className="w-full h-px my-5"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)",
-                  }}
+                  style={dividerStyle}
                 />
 
                 {/* Benefits */}

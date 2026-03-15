@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { BADGE_BG_STYLE } from "@/lib/constants";
 
 export function FeaturesSectionHeader() {
   return (
@@ -15,10 +16,7 @@ export function FeaturesSectionHeader() {
       >
         <span
           className="inline-block font-mono text-[10px] tracking-[0.2em] uppercase text-white/70 px-4 py-1.5"
-          style={{
-            background: "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
-            border: "1px solid rgba(255,255,255,0.1)",
-          }}
+          style={BADGE_BG_STYLE}
         >
           Core Features
         </span>

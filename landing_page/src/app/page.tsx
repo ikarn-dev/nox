@@ -1,27 +1,21 @@
-"use client";
-
 import dynamic from "next/dynamic";
 import { Hero } from "@/components/ui/hero";
 import { BentoGrid, BentoCard } from "@/components/bento/bento-grid";
 import { FeaturesSectionHeader } from "@/components/ui/features-header";
 import { Footer } from "@/components/ui/footer";
 
-/* ── Lazy-loaded below-fold sections ── */
+/* ── Lazy-loaded below-fold sections (SSR enabled for initial HTML) ── */
 const ComplaintsSection = dynamic(
   () => import("@/components/ui/complaints-section").then((m) => m.ComplaintsSection),
-  { ssr: false }
 );
 const ComparisonSection = dynamic(
   () => import("@/components/ui/comparison-section").then((m) => m.ComparisonSection),
-  { ssr: false }
 );
 const PricingSection = dynamic(
   () => import("@/components/ui/pricing-section").then((m) => m.PricingSection),
-  { ssr: false }
 );
 const FaqSection = dynamic(
   () => import("@/components/ui/faq-section").then((m) => m.FaqSection),
-  { ssr: false }
 );
 
 /* ── SVG Backgrounds for feature cards ── */

@@ -3,6 +3,33 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { HeroGradient } from "./hero-gradient";
+import { HERO_GRAIN_STYLE } from "@/lib/constants";
+
+/* ── Hoisted styles — prevent per-render allocation ── */
+const primaryCtaGradient: React.CSSProperties = {
+  background: "linear-gradient(180deg, #ffffff 0%, #d8d8d8 100%)",
+};
+
+const secondaryCtaGradient: React.CSSProperties = {
+  background:
+    "linear-gradient(180deg, #484848 0%, #353535 25%, #151515 70%, #050505 100%)",
+};
+
+const headingGradient: React.CSSProperties = {
+  background:
+    "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.65) 100%)",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+};
+
+const headingSpanGradient: React.CSSProperties = {
+  background:
+    "linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.5) 100%)",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+};
 
 export function Hero() {
   return (
@@ -24,7 +51,7 @@ export function Hero() {
           className="relative w-full max-w-[550px] aspect-[2.5/1] mb-2 mix-blend-lighten"
         >
           <Image
-            src="/hero_image/hero_text.png"
+            src="/hero_image/hero_text.webp"
             alt="NOX"
             fill
             priority
@@ -41,24 +68,12 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15, ease: [0.25, 0.4, 0.25, 1] }}
               className="text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.15] tracking-tight whitespace-nowrap"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.65) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
+              style={headingGradient}
             >
               Snipe Before{" "}
               <span
                 className="font-serif italic font-normal"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.5) 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
+                style={headingSpanGradient}
               >
                 the Shill.
               </span>
@@ -91,18 +106,11 @@ export function Hero() {
           <a
             href="#features"
             className="relative flex items-center justify-center w-full sm:w-[150px] h-[46px] text-black text-[13.5px] font-sans font-semibold tracking-wide rounded-md overflow-hidden group transition-all duration-300 border border-white/20 hover:scale-[1.02] active:scale-[0.98]"
-            style={{
-              background: "linear-gradient(180deg, #ffffff 0%, #d8d8d8 100%)",
-            }}
+            style={primaryCtaGradient}
           >
             <div 
               className="absolute inset-0 pointer-events-none" 
-              style={{
-                opacity: 0.55,
-                mixBlendMode: "overlay",
-                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-                backgroundSize: "256px 256px",
-              }}
+              style={HERO_GRAIN_STYLE}
             />
             <span className="relative z-10 group-hover:opacity-80 transition-opacity">Launch App</span>
           </a>
@@ -111,18 +119,11 @@ export function Hero() {
           <a
             href="#docs"
             className="relative flex items-center justify-center w-full sm:w-[150px] h-[46px] text-white/90 text-[13.5px] font-sans font-medium tracking-wide rounded-md overflow-hidden group transition-all duration-300 border border-white/10 hover:scale-[1.02] active:scale-[0.98] hover:border-white/20"
-            style={{
-              background: "linear-gradient(180deg, #484848 0%, #353535 25%, #151515 70%, #050505 100%)",
-            }}
+            style={secondaryCtaGradient}
           >
             <div 
               className="absolute inset-0 pointer-events-none" 
-              style={{
-                opacity: 0.55,
-                mixBlendMode: "overlay",
-                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-                backgroundSize: "256px 256px",
-              }}
+              style={HERO_GRAIN_STYLE}
             />
             <span className="relative z-10 group-hover:text-white transition-colors">Read Docs</span>
           </a>
