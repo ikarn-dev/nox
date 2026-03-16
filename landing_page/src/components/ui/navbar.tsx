@@ -60,12 +60,12 @@ export function Navbar() {
         </div>
 
         {/* Desktop CTA */}
-        <a
-          href="#"
-          className="hidden md:inline-flex px-6 py-2.5 bg-white/5 border border-white/30 text-white text-[13px] font-sans font-semibold uppercase tracking-wider hover:bg-white/10 hover:border-white/50 transition-colors"
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="hidden md:inline-flex px-6 py-2.5 bg-white/5 border border-white/30 text-white text-[13px] font-sans font-semibold uppercase tracking-wider hover:bg-white/10 hover:border-white/50 transition-colors cursor-pointer"
         >
-          Launch App
-        </a>
+          Get Access
+        </button>
 
         {/* Mobile Burger */}
         <button
@@ -125,18 +125,20 @@ export function Navbar() {
 
             {/* Mobile CTA */}
             <div className="px-6 mt-4">
-              <a
-                href="#"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-center w-full py-3.5 text-black text-[14px] font-sans font-semibold uppercase tracking-wider"
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="flex items-center justify-center w-full py-3.5 text-black text-[14px] font-sans font-semibold uppercase tracking-wider cursor-pointer"
                 style={{
                   background:
                     "linear-gradient(180deg, #ffffff 0%, #d8d8d8 100%)",
                   border: "1px solid rgba(255,255,255,0.3)",
                 }}
               >
-                Launch App
-              </a>
+                Get Access
+              </button>
             </div>
           </motion.div>
         )}

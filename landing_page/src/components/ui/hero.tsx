@@ -3,18 +3,10 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { HeroGradient } from "./hero-gradient";
+import { EarlyAccessForm } from "./early-access-form";
 import { HERO_GRAIN_STYLE } from "@/lib/constants";
 
 /* ── Hoisted styles — prevent per-render allocation ── */
-const primaryCtaGradient: React.CSSProperties = {
-  background: "linear-gradient(180deg, #ffffff 0%, #d8d8d8 100%)",
-};
-
-const secondaryCtaGradient: React.CSSProperties = {
-  background:
-    "linear-gradient(180deg, #484848 0%, #353535 25%, #151515 70%, #050505 100%)",
-};
-
 const headingGradient: React.CSSProperties = {
   background:
     "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.65) 100%)",
@@ -95,38 +87,14 @@ export function Hero() {
           </div>
         </div>
 
-        {/* CTA Buttons */}
+        {/* CTA Form */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.4 }}
           className="flex flex-col sm:flex-row items-center gap-4 mt-8 w-full sm:w-auto mx-auto"
         >
-          {/* Primary CTA (Left) — Light gradient with heavy grain */}
-          <a
-            href="#features"
-            className="relative flex items-center justify-center w-full sm:w-[150px] h-[46px] text-black text-[13.5px] font-sans font-semibold tracking-wide rounded-md overflow-hidden group transition-all duration-300 border border-white/20 hover:scale-[1.02] active:scale-[0.98]"
-            style={primaryCtaGradient}
-          >
-            <div 
-              className="absolute inset-0 pointer-events-none" 
-              style={HERO_GRAIN_STYLE}
-            />
-            <span className="relative z-10 group-hover:opacity-80 transition-opacity">Launch App</span>
-          </a>
-
-          {/* Secondary CTA (Right) — Dark frosted gradient with heavy grain */}
-          <a
-            href="#docs"
-            className="relative flex items-center justify-center w-full sm:w-[150px] h-[46px] text-white/90 text-[13.5px] font-sans font-medium tracking-wide rounded-md overflow-hidden group transition-all duration-300 border border-white/10 hover:scale-[1.02] active:scale-[0.98] hover:border-white/20"
-            style={secondaryCtaGradient}
-          >
-            <div 
-              className="absolute inset-0 pointer-events-none" 
-              style={HERO_GRAIN_STYLE}
-            />
-            <span className="relative z-10 group-hover:text-white transition-colors">Read Docs</span>
-          </a>
+          <EarlyAccessForm />
         </motion.div>
       </div>
 

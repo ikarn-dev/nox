@@ -8,7 +8,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nox.vercel.app"),
+  metadataBase: new URL("https://www.noxbot.xyz"),
   title: "Nox | Solana Sniper",
   description:
     "The fastest memecoin sniper on Solana. Sub-50ms execution, silent KOL intelligence, and zero MEV attacks.",
@@ -24,6 +24,7 @@ export const metadata: Metadata = {
 };
 
 import { Navbar } from "@/components/ui/navbar";
+import { ToastProvider } from "@/components/ui/toast";
 
 export default function RootLayout({
   children,
@@ -57,8 +58,10 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-black text-white font-sans">
-        <Navbar />
-        {children}
+        <ToastProvider>
+          <Navbar />
+          {children}
+        </ToastProvider>
       </body>
     </html>
   );
